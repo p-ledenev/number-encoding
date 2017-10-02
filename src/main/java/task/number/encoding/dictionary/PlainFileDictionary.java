@@ -15,13 +15,13 @@ import java.util.Map;
 public class PlainFileDictionary implements Dictionary {
     private Map<Character, WordSet> dictionary;
 
-    public PlainFileDictionary() throws IOException {
+    public PlainFileDictionary(String fileName) throws IOException {
         dictionary = new HashMap<>();
-        fillDictionary();
+        fillDictionary(fileName);
     }
 
-    private void fillDictionary() throws IOException {
-        try (InputStream inputStream = getClass().getResourceAsStream("/dictionary.txt");
+    private void fillDictionary(String fileName) throws IOException {
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
              BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             String value;
             while ((value = reader.readLine()) != null) {

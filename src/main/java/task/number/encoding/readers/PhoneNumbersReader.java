@@ -2,9 +2,9 @@ package task.number.encoding.readers;
 
 import java.io.IOException;
 
-public interface PhoneNumberReader {
+public interface PhoneNumbersReader {
 
-    boolean hasNext();
+    boolean hasNext() throws IOException;
 
     String getNext() throws IOException;
 }

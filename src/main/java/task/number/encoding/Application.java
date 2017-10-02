@@ -2,10 +2,11 @@ package task.number.encoding;
 
 import task.number.encoding.dictionary.Dictionary;
 import task.number.encoding.dictionary.PlainFileDictionary;
-import task.number.encoding.readers.FilePhoneNumberReader;
-import task.number.encoding.readers.PhoneNumberReader;
+import task.number.encoding.readers.FilePhoneNumbersReader;
+import task.number.encoding.readers.PhoneNumbersReader;
 import task.number.encoding.tree.TreePhoneNumberEncoder;
 
+import java.io.IOException;
 import java.util.List;
 
 public class Application {
@@ -15,9 +16,9 @@ public class Application {
             throw new IllegalArgumentException("File with phone numbers should be specified");
         Dictionary dictionary = readDictionary();
         PhoneNumberEncoder encoder = new TreePhoneNumberEncoder(dictionary);
-        PhoneNumberReader phoneNumberReader = new FilePhoneNumberReader(args[0]);
-        while (phoneNumberReader.hasNext()) {
-            String phoneNumber = phoneNumberReader.getNext();
+        PhoneNumbersReader phoneNumbersReader = new FilePhoneNumbersReader(args[0]);
+        while (phoneNumbersReader.hasNext()) {
+            String phoneNumber = phoneNumbersReader.getNext();
             List<String> encodedPhoneNumbers = encoder.encode(phoneNumber);
             print(phoneNumber, encodedPhoneNumbers);
         }
@@ -28,7 +29,7 @@ public class Application {
             System.out.println(phoneNumber + ": " + encodedPhoneNumber);
     }
 
-    private static Dictionary readDictionary() {
-        return new PlainFileDictionary();
+    private static Dictionary readDictionary() throws IOException {
+        return new PlainFileDictionary("dictionary.txt");
     }
 }
