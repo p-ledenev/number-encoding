@@ -3,12 +3,18 @@ package task.number.encoding.dictionary;
 import static java.util.Objects.isNull;
 
 public class Word {
-    private String sourceValue;
-    private String normalizedValue;
+    private String value;
 
     public Word(String value) {
-        sourceValue = value;
-        normalizedValue = getNormalizedValue(value);
+        this.value = value;
+    }
+
+    public String getSource() {
+        return value;
+    }
+
+    public boolean hasSameNormalized(String normalizedWord) {
+        return getNormalizedValue().equals(normalizedWord);
     }
 
     @Override
@@ -18,19 +24,17 @@ public class Word {
         if (!getClass().isInstance(o))
             return false;
         Word word = (Word) o;
-        if (isNull(sourceValue))
-            return isNull(word.sourceValue);
-        return sourceValue.equals(word.sourceValue);
+        if (isNull(value))
+            return isNull(word.value);
+        return value.equals(word.value);
     }
 
     @Override
     public int hashCode() {
-        if (isNull(sourceValue) || sourceValue.isEmpty())
-            return 0;
-        return sourceValue.hashCode();
+        return value.hashCode();
     }
 
-    private String getNormalizedValue(String value) {
+    private String getNormalizedValue() {
         return value.toLowerCase().replace("\"", "");
     }
 }

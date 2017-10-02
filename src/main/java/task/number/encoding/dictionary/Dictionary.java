@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface Dictionary {
 
-    boolean containsNormalizedWord(String word);
+    boolean containsNormalizedWord(String normalizedWord);
 
     List<String> getSourceWordsFor(String normalizedWord);
 }
