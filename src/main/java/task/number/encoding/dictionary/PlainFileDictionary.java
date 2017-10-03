@@ -42,15 +42,17 @@ public class PlainFileDictionary implements Dictionary {
     public boolean containsNormalizedWord(String normalizedWord) {
         if (isNull(normalizedWord) || normalizedWord.isEmpty())
             return false;
-        WordSet words = dictionary.get(getHashKey(normalizedWord));
-        return words.containsNormalized(normalizedWord);
+        return getFor(normalizedWord).containsNormalized(normalizedWord);
     }
 
     @Override
     public List<String> getSourceWordsFor(String normalizedWord) {
+        return getFor(normalizedWord).getSourcesFor(normalizedWord);
+    }
+
+    private WordSet getFor(String normalizedWord) {
         return dictionary
-                .getOrDefault(getHashKey(normalizedWord), new EmptyWordSet())
-                .getSourcesFor(normalizedWord);
+                .getOrDefault(getHashKey(normalizedWord), new EmptyWordSet());
     }
 
     private Character getHashKey(String word) {

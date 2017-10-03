@@ -31,6 +31,7 @@ public class TreeInitializer {
                 .toString()
                 .toCharArray();
         List<Node> tier = new ArrayList<>();
+        tier.add(LeafNode.create());
         for (char digit : digits) {
             List<Node> currentTier = new ArrayList<>();
             Character[] chars = DIGITS_TO_CHARS_MAP.get(digit);

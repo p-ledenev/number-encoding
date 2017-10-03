@@ -49,12 +49,12 @@ public class TreeInitializerTest {
     @Test
     public void shouldInitForTenDigits() {
         Node root = initializer.initFor("7334294590");
-        int layerCount = 0;
+        int layerCount = 1;
         while (!root.getChildNodes().isEmpty()) {
             root = root.getChildNodes().get(0);
             layerCount++;
         }
-        assertEquals(10, layerCount);
+        assertEquals(12, layerCount);
     }
 
     private void validateNodes(List<Node> childNodes, String[] chars, String digitValue) {

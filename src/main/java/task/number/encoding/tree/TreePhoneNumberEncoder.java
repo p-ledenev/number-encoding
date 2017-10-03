@@ -5,7 +5,9 @@ import task.number.encoding.PhoneNumberEncoder;
 import task.number.encoding.dictionary.Dictionary;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public class TreePhoneNumberEncoder implements PhoneNumberEncoder {
@@ -18,29 +20,38 @@ public class TreePhoneNumberEncoder implements PhoneNumberEncoder {
     @Override
     public List<String> encode(String phoneNumber) {
         TreeInitializer treeInitializer = new TreeInitializer();
-        Node root = treeInitializer.initFor(phoneNumber);
-        return traverse(root, "");
+        Node root = treeInitializer.initFor(normalize(phoneNumber));
+        return new ArrayList<>(traverse(root, ""));
     }
 
-    private List<String> traverse(Node root, String prefix) {
-        List<String> encodingOptions = new ArrayList<>();
+    private String normalize(String phoneNumber) {
+        return phoneNumber
+                .replace("-", "")
+                .replace("/", "");
+    }
+
+    private Set<String> traverse(Node root, String prefix) {
+        Set<String> encodingOptions = new HashSet<>();
+        if (isLeaf(root) && prefix.isEmpty()) {
+            encodingOptions.add("");
+            return encodingOptions;
+        }
         if (dictionary.containsNormalizedWord(prefix)) {
-            List<String> suffixes = traverseChildNodesOf(root, root.getCharValue());
+            List<String> suffixes = new ArrayList<>();
             List<String> sourceWords = dictionary.getSourceWordsFor(prefix);
-            if (suffixes.isEmpty() && notEndsWithDigit(prefix)) {
-                sourceWords = appendTo(sourceWords, root.getDigitValue());
-                suffixes = traverseChildNodesOf(root, "");
+            if (isLeaf(root)) {
+                suffixes.add("");
+            } else {
+                suffixes = traverseChildNodesOf(root, root.getCharValue());
+                if (suffixes.isEmpty() && notEndsWithDigit(prefix)) {
+                    sourceWords = appendTo(sourceWords, root.getDigitValue());
+                    suffixes = traverseChildNodesOf(root, "");
+                }
             }
             encodingOptions.addAll(getEncodingOptions(sourceWords, suffixes));
         }
         encodingOptions.addAll(traverseChildNodesOf(root, root.appendTo(prefix)));
         return encodingOptions;
-    }
-
-    private boolean notEndsWithDigit(String prefix) {
-        int length = prefix.length();
-        char lastChar = prefix.toCharArray()[length - 1];
-        return Character.isDigit(lastChar);
     }
 
     private List<String> traverseChildNodesOf(Node root, String prefix) {
@@ -57,13 +68,22 @@ public class TreePhoneNumberEncoder implements PhoneNumberEncoder {
 
     private Stream<String> getEncodingOptions(String word, List<String> suffixes) {
         return suffixes.stream()
-                .map(s -> word + " " + s);
+                .map(s -> (word + " " + s).trim());
     }
 
     private List<String> appendTo(List<String> words, String value) {
         return words.stream()
-                .map(w -> w + value)
+                .map(w -> w + " " + value)
                 .collect(toList());
     }
 
+    private boolean isLeaf(Node root) {
+        return LeafNode.class.isInstance(root);
+    }
+
+    private boolean notEndsWithDigit(String prefix) {
+        int length = prefix.length();
+        char lastChar = prefix.toCharArray()[length - 1];
+        return !Character.isDigit(lastChar);
+    }
 }

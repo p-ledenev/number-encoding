@@ -1,6 +1,7 @@
 package task.nuber.encoding.testing;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,8 +20,23 @@ public class PlainFileDictionaryTest {
     }
 
     @Test
+    public void whenWordNotFound() {
+        assertFalse(dictionary.containsNormalizedWord("ffit"));
+    }
+
+    @Test
+    public void whenWordsBasketNotFound() {
+        assertFalse(dictionary.containsNormalizedWord("abs"));
+    }
+
+    @Test
     public void shouldContainWord() {
         assertTrue(dictionary.containsNormalizedWord("first"));
+    }
+
+    @Test
+    public void whenSourceNotFound() {
+        assertTrue(dictionary.getSourceWordsFor("abs").isEmpty());
     }
 
     @Test
