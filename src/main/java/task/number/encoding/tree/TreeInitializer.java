@@ -42,6 +42,6 @@ public class TreeInitializer {
             }
             tier = currentTier;
         }
-        return Node.createRoot(tier);
+        return RootNode.create(tier);
     }
 }

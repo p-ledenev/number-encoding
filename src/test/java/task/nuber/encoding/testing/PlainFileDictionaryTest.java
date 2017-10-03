@@ -15,7 +15,7 @@ public class PlainFileDictionaryTest {
 
     @Before
     public void setUp() throws Exception {
-        dictionary = new PlainFileDictionary("dictionary.txt");
+        dictionary = new PlainFileDictionary("test-dictionary.txt");
     }
 
     @Test
@@ -27,7 +27,7 @@ public class PlainFileDictionaryTest {
     public void shouldReturnSourceWord() {
         List<String> actual = dictionary.getSourceWordsFor("third");
         assertEquals(1, actual.size());
-        assertEquals("third", actual.get(0));
+        assertEquals("thir\"d", actual.get(0));
     }
 
     @Test

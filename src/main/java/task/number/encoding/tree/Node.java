@@ -7,10 +7,6 @@ public class Node {
     private final String charValue;
     private final List<Node> childNodes;
 
-    public static Node createRoot(List<Node> childNodes) {
-        return new Node("", "", childNodes);
-    }
-
     public Node(String digitValue, String charValue, List<Node> childNodes) {
         this.digitValue = digitValue;
         this.charValue = charValue;
