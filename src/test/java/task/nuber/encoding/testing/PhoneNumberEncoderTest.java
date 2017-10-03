@@ -1,6 +1,7 @@
 package task.nuber.encoding.testing;
 
 import org.junit.Before;
+import org.junit.Test;
 import task.number.encoding.PhoneNumberEncoder;
 import task.number.encoding.dictionary.Dictionary;
 import task.number.encoding.dictionary.PlainFileDictionary;
@@ -15,5 +16,8 @@ public class PhoneNumberEncoderTest {
         numberEncoder = new TreePhoneNumberEncoder(dictionary);
     }
 
-    //TODO
+    @Test
+    public void should() {
+       // numberEncoder.encode();
+    }
 }

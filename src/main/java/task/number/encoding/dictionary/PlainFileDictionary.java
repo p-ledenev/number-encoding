@@ -25,7 +25,7 @@ public class PlainFileDictionary implements Dictionary {
              BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             String value;
             while ((value = reader.readLine()) != null) {
-                char firstChar = getHashKey(value);
+                char firstChar = getHashKey(value.toLowerCase());
                 WordSet words = findOrCreateBasketFor(firstChar);
                 words.add(new Word(value));
             }

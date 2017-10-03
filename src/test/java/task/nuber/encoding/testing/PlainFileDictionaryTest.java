@@ -24,15 +24,37 @@ public class PlainFileDictionaryTest {
     }
 
     @Test
-    public void shouldReturnSourceWord() {
+    public void whenSourceWithOnlyLowercase() {
+        List<String> actual = dictionary.getSourceWordsFor("first");
+        validateUniqueness(actual, "first");
+    }
+
+    @Test
+    public void whenSourceWithUmlaut() {
         List<String> actual = dictionary.getSourceWordsFor("third");
-        assertEquals(1, actual.size());
-        assertEquals("thir\"d", actual.get(0));
+        validateUniqueness(actual, "thir\"d");
+    }
+
+    @Test
+    public void whenSourceStartsWithCapital() {
+        List<String> actual = dictionary.getSourceWordsFor("fourth");
+        validateUniqueness(actual, "Fourth");
+    }
+
+    @Test
+    public void whenSourceStartsWithCapitalAndHasUmlaut() {
+        List<String> actual = dictionary.getSourceWordsFor("fifth");
+        validateUniqueness(actual, "Fift\"h");
     }
 
     @Test
     public void shouldReturnAllSourceWords() {
         List<String> actual = dictionary.getSourceWordsFor("second");
         assertEquals(2, actual.size());
+    }
+
+    private void validateUniqueness(List<String> actual, String expected) {
+        assertEquals(1, actual.size());
+        assertEquals(expected, actual.get(0));
     }
 }

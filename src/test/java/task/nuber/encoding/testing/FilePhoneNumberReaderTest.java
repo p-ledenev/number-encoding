@@ -14,7 +14,7 @@ public class FilePhoneNumberReaderTest {
     @Before
     public void setUp() throws Exception {
         String root = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
-        reader = new FilePhoneNumbersReader(root + "/phones.txt");
+        reader = new FilePhoneNumbersReader(root + "/test-phones.txt");
     }
 
     @Test
