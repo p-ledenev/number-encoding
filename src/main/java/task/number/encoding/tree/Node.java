@@ -1,6 +1,9 @@
 package task.number.encoding.tree;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.Objects.isNull;
 
 public class Node {
     private final String digitValue;
@@ -10,11 +13,15 @@ public class Node {
     public Node(String digitValue, String charValue, List<Node> childNodes) {
         this.digitValue = digitValue;
         this.charValue = charValue;
-        this.childNodes = childNodes;
+        this.childNodes = isNull(childNodes) ? new ArrayList<>() : childNodes;
     }
 
     public List<Node> getChildNodes() {
         return childNodes;
+    }
+
+    public Node getChildNode(int index) {
+        return childNodes.get(index);
     }
 
     public String getCharValue() {
@@ -25,7 +32,7 @@ public class Node {
         return digitValue;
     }
 
-    public String appendTo(String prefix) {
-        return prefix + charValue;
+    public boolean hasChildNodes() {
+        return !childNodes.isEmpty();
     }
 }

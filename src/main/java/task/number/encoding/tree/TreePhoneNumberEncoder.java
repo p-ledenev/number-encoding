@@ -1,6 +1,5 @@
 package task.number.encoding.tree;
 
-import static java.util.stream.Collectors.toList;
 import task.number.encoding.PhoneNumberEncoder;
 import task.number.encoding.dictionary.Dictionary;
 
@@ -10,7 +9,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.toList;
+
 public class TreePhoneNumberEncoder implements PhoneNumberEncoder {
+    private static final NodeValueSupplier CHAR_VALUE = Node::getCharValue;
+    private static final NodeValueSupplier DIGIT_VALUE = Node::getDigitValue;
+
     private final Dictionary dictionary;
 
     public TreePhoneNumberEncoder(Dictionary dictionary) {
@@ -21,7 +25,7 @@ public class TreePhoneNumberEncoder implements PhoneNumberEncoder {
     public List<String> encode(String phoneNumber) {
         TreeInitializer treeInitializer = new TreeInitializer();
         Node root = treeInitializer.initFor(normalize(phoneNumber));
-        return new ArrayList<>(traverse(root, ""));
+        return new ArrayList<>(traverse(root, "", CHAR_VALUE));
     }
 
     private String normalize(String phoneNumber) {
@@ -30,33 +34,27 @@ public class TreePhoneNumberEncoder implements PhoneNumberEncoder {
                 .replace("/", "");
     }
 
-    private Set<String> traverse(Node root, String prefix) {
+    private Set<String> traverse(Node root, String prefix, NodeValueSupplier valueSupplier) {
         Set<String> encodingOptions = new HashSet<>();
-        if (isLeaf(root) && prefix.isEmpty()) {
-            encodingOptions.add("");
+        String newPrefix = prefix + valueSupplier.apply(root);
+        if (isEncodingCompleted(root, prefix)) {
+            encodingOptions.add(newPrefix);
             return encodingOptions;
         }
-        if (dictionary.containsNormalizedWord(prefix)) {
-            List<String> suffixes = new ArrayList<>();
-            List<String> sourceWords = dictionary.getSourceWordsFor(prefix);
-            if (isLeaf(root)) {
-                suffixes.add("");
-            } else {
-                suffixes = traverseChildNodesOf(root, root.getCharValue());
-                if (suffixes.isEmpty() && notEndsWithDigit(prefix)) {
-                    sourceWords = appendTo(sourceWords, root.getDigitValue());
-                    suffixes = traverseChildNodesOf(root, "");
-                }
-            }
+        if (dictionary.containsNormalizedWord(newPrefix)) {
+            List<String> sourceWords = dictionary.getSourceWordsFor(newPrefix);
+            List<String> suffixes = traverseChildNodesOf(root, "", CHAR_VALUE);
+            if (canAppendAsDigit(suffixes, prefix))
+                suffixes = traverseChildNodesOf(root, "", DIGIT_VALUE);
             encodingOptions.addAll(getEncodingOptions(sourceWords, suffixes));
         }
-        encodingOptions.addAll(traverseChildNodesOf(root, root.appendTo(prefix)));
+        encodingOptions.addAll(traverseChildNodesOf(root, newPrefix, CHAR_VALUE));
         return encodingOptions;
     }
 
-    private List<String> traverseChildNodesOf(Node root, String prefix) {
+    private List<String> traverseChildNodesOf(Node root, String prefix, NodeValueSupplier valueSupplier) {
         return root.getChildNodes().stream()
-                .flatMap(n -> traverse(n, prefix).stream())
+                .flatMap(n -> traverse(n, prefix, valueSupplier).stream())
                 .collect(toList());
     }
 
@@ -77,11 +75,21 @@ public class TreePhoneNumberEncoder implements PhoneNumberEncoder {
                 .collect(toList());
     }
 
-    private boolean isLeaf(Node root) {
-        return LeafNode.class.isInstance(root);
+    private boolean isEncodingCompleted(Node root, String prefix) {
+        return isLeaf(root) && prefix.isEmpty();
+    }
+
+    private boolean canAppendAsDigit(List<String> suffixes, String prefix) {
+        return suffixes.isEmpty() && notEndsWithDigit(prefix);
+    }
+
+    private boolean isLeaf(Node node) {
+        return LeafNode.class.isInstance(node);
     }
 
     private boolean notEndsWithDigit(String prefix) {
+        if (prefix.isEmpty())
+            return true;
         int length = prefix.length();
         char lastChar = prefix.toCharArray()[length - 1];
         return !Character.isDigit(lastChar);

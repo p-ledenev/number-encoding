@@ -1,13 +1,14 @@
 package task.nuber.encoding.testing;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
+import task.number.encoding.tree.LeafNode;
 import task.number.encoding.tree.Node;
 import task.number.encoding.tree.TreeInitializer;
 
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class TreeInitializerTest {
     private TreeInitializer initializer;
@@ -25,7 +26,8 @@ public class TreeInitializerTest {
     @Test
     public void whenEmptyPhoneNumber() {
         Node root = initializer.initFor("");
-        assertTrue(root.getChildNodes().isEmpty());
+        assertEquals(1, root.getChildNodes().size());
+        assertEquals(LeafNode.class, root.getChildNodes().get(0).getClass());
     }
 
     @Test
