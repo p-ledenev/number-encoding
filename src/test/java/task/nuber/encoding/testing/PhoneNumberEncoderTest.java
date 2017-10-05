@@ -1,5 +1,7 @@
 package task.nuber.encoding.testing;
 
+import static junit.framework.TestCase.assertEquals;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import task.number.encoding.PhoneNumberEncoder;
@@ -9,8 +11,7 @@ import task.number.encoding.tree.TreePhoneNumberEncoder;
 
 import java.util.List;
 
-import static junit.framework.TestCase.assertEquals;
-
+@Slf4j
 public class PhoneNumberEncoderTest {
     private PhoneNumberEncoder numberEncoder;
 
@@ -107,7 +108,10 @@ public class PhoneNumberEncoderTest {
     }
 
     private void whenNoOptionsFound(String phone) {
+        long startTime = System.currentTimeMillis();
         List<String> encoded = numberEncoder.encode(phone);
         assertEquals(0, encoded.size());
+        long endTime = System.currentTimeMillis();
+        log.info("Total time {}ms", endTime - startTime);
     }
 }

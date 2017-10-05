@@ -1,6 +1,7 @@
-
 package task.number.encoding.dictionary;
 
+import static java.util.Objects.isNull;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,8 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Objects.isNull;
-
+@Slf4j
 public class PlainFileDictionary implements Dictionary {
     private Map<Character, WordSet> dictionary;
 
@@ -34,14 +34,24 @@ public class PlainFileDictionary implements Dictionary {
 
     @Override
     public boolean containsNormalizedWord(String normalizedWord) {
+        long startTime = System.currentTimeMillis();
         if (isNull(normalizedWord) || normalizedWord.isEmpty())
             return false;
-        return getFor(normalizedWord).containsNormalized(normalizedWord);
+        boolean normalized = getFor(normalizedWord).containsNormalized(normalizedWord);
+        long finishTime = System.currentTimeMillis();
+        if (finishTime - startTime > 0)
+            log.info("contains query time: {}ms for {}", finishTime - startTime, normalizedWord);
+        return normalized;
     }
 
     @Override
     public List<String> getSourceWordsFor(String normalizedWord) {
-        return getFor(normalizedWord).getSourcesFor(normalizedWord);
+        long startTime = System.currentTimeMillis();
+        List<String> sources = getFor(normalizedWord).getSourcesFor(normalizedWord);
+        long finishTime = System.currentTimeMillis();
+        if (finishTime - startTime > 0)
+            log.info("get query time: {}ms for {}", finishTime - startTime, normalizedWord);
+        return sources;
     }
 
     private WordSet getFor(String normalizedWord) {
