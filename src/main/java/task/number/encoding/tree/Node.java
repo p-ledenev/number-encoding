@@ -20,10 +20,6 @@ public class Node {
         return childNodes;
     }
 
-    public Node getChildNode(int index) {
-        return childNodes.get(index);
-    }
-
     public String getCharValue() {
         return charValue;
     }
@@ -32,7 +28,15 @@ public class Node {
         return digitValue;
     }
 
-    public boolean hasChildNodes() {
-        return !childNodes.isEmpty();
+    public String appendCharTo(String prefix) {
+        return prefix + charValue;
+    }
+
+    public Node getFirstChild() {
+        return childNodes.get(0);
+    }
+
+    public String prefixWithDigit(String prefix) {
+        return digitValue + " " + prefix;
     }
 }
