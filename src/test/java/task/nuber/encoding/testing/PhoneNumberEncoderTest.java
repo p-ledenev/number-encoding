@@ -101,6 +101,11 @@ public class PhoneNumberEncoderTest {
         whenNoOptionsFound("1078-913-5");
     }
 
+    @Test
+    public void whenNoOptionsFound6() {
+        whenNoOptionsFound("123456789098765432123456788912344556674433454950");
+    }
+
     private void whenNoOptionsFound(String phone) {
         List<String> encoded = numberEncoder.encode(phone);
         assertEquals(0, encoded.size());

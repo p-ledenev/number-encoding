@@ -33,7 +33,8 @@ public class TreePhoneNumberEncoder implements PhoneNumberEncoder {
     private String normalize(String phoneNumber) {
         return phoneNumber
                 .replace("-", "")
-                .replace("/", "");
+                .replace("/", "")
+                .trim();
     }
 
     private Set<String> traverse(Node root, String prefix) {
