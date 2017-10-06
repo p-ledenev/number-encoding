@@ -1,24 +1,23 @@
 package task.nuber.encoding.testing;
 
-import static junit.framework.TestCase.assertEquals;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import task.number.encoding.PhoneNumberEncoder;
 import task.number.encoding.dictionary.Dictionary;
 import task.number.encoding.dictionary.PlainFileDictionary;
-import task.number.encoding.tree.TreePhoneNumberEncoder;
+import task.number.encoding.tree.TreeRecursivePhoneNumberEncoder;
 
 import java.util.List;
 
-@Slf4j
-public class PhoneNumberEncoderTest {
+import static junit.framework.TestCase.assertEquals;
+
+public class TreeRecursivePhoneNumberEncoderTest {
     private PhoneNumberEncoder numberEncoder;
 
     @Before
     public void setUp() throws Exception {
         Dictionary dictionary = new PlainFileDictionary("encoder-test-dictionary.txt");
-        numberEncoder = new TreePhoneNumberEncoder(dictionary);
+        numberEncoder = new TreeRecursivePhoneNumberEncoder(dictionary);
     }
 
     @Test
@@ -102,16 +101,8 @@ public class PhoneNumberEncoderTest {
         whenNoOptionsFound("1078-913-5");
     }
 
-    @Test
-    public void whenNoOptionsFound6() {
-        whenNoOptionsFound("123456789098765432123456788912344556674433454950");
-    }
-
     private void whenNoOptionsFound(String phone) {
-        long startTime = System.currentTimeMillis();
         List<String> encoded = numberEncoder.encode(phone);
         assertEquals(0, encoded.size());
-        long endTime = System.currentTimeMillis();
-        log.info("Total time {}ms", endTime - startTime);
     }
 }

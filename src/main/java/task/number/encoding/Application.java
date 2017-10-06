@@ -4,7 +4,7 @@ import task.number.encoding.dictionary.Dictionary;
 import task.number.encoding.dictionary.PlainFileDictionary;
 import task.number.encoding.readers.FilePhoneNumbersReader;
 import task.number.encoding.readers.PhoneNumbersReader;
-import task.number.encoding.tree.TreePhoneNumberEncoder;
+import task.number.encoding.tree.TreeRecursivePhoneNumberEncoder;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,7 +15,7 @@ public class Application {
         if (args.length < 1)
             throw new IllegalArgumentException("File with phone numbers should be specified");
         Dictionary dictionary = readDictionary();
-        PhoneNumberEncoder encoder = new TreePhoneNumberEncoder(dictionary);
+        PhoneNumberEncoder encoder = new TreeRecursivePhoneNumberEncoder(dictionary);
         PhoneNumbersReader phoneNumbersReader = new FilePhoneNumbersReader(args[0]);
         while (phoneNumbersReader.hasNext()) {
             String phoneNumber = phoneNumbersReader.getNext();

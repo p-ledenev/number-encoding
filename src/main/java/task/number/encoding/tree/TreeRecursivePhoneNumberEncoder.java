@@ -13,10 +13,10 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
-public class TreePhoneNumberEncoder implements PhoneNumberEncoder {
+public class TreeRecursivePhoneNumberEncoder implements PhoneNumberEncoder {
     private final Dictionary dictionary;
 
-    public TreePhoneNumberEncoder(Dictionary dictionary) {
+    public TreeRecursivePhoneNumberEncoder(Dictionary dictionary) {
         this.dictionary = dictionary;
     }
 
