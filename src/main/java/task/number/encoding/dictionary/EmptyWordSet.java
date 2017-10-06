@@ -18,4 +18,9 @@ public class EmptyWordSet implements WordSet {
     public List<String> getSourcesFor(String normalizedWord) {
         return new ArrayList<>();
     }
+
+    @Override
+    public boolean containsWithNormalizedPrefix(String normalizedPrefix) {
+        return false;
+    }
 }

@@ -9,4 +9,6 @@ public interface WordSet {
     boolean containsNormalized(String normalizedWord);
 
     List<String> getSourcesFor(String normalizedWord);
+
+    boolean containsWithNormalizedPrefix(String normalizedPrefix);
 }

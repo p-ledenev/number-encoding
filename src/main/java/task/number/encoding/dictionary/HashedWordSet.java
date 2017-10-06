@@ -1,10 +1,10 @@
 package task.number.encoding.dictionary;
 
-import static java.util.stream.Collectors.toList;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static java.util.stream.Collectors.toList;
 
 public class HashedWordSet implements WordSet {
     private Set<Word> words;
@@ -30,5 +30,11 @@ public class HashedWordSet implements WordSet {
                 .filter(w -> w.hasSameNormalized(normalizedWord))
                 .map(Word::getSource)
                 .collect(toList());
+    }
+
+    @Override
+    public boolean containsWithNormalizedPrefix(String normalizedPrefix) {
+        return words.stream()
+                .anyMatch(w -> w.hasNormalizedPrefix(normalizedPrefix));
     }
 }

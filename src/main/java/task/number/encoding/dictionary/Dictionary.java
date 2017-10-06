@@ -7,4 +7,6 @@ public interface Dictionary {
     boolean containsNormalizedWord(String normalizedWord);
 
     List<String> getSourceWordsFor(String normalizedWord);
+
+    boolean hasWordsWithNormalizedPrefix(String normalizedPrefix);
 }

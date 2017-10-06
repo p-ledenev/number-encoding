@@ -10,13 +10,14 @@ import task.number.encoding.tree.TreeRecursivePhoneNumberEncoder;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertFalse;
 
 public class TreeRecursivePhoneNumberEncoderTest {
     private PhoneNumberEncoder numberEncoder;
 
     @Before
     public void setUp() throws Exception {
-        Dictionary dictionary = new PlainFileDictionary("encoder-test-dictionary.txt");
+        Dictionary dictionary = new PlainFileDictionary("dictionary.txt");
         numberEncoder = new TreeRecursivePhoneNumberEncoder(dictionary);
     }
 
@@ -61,6 +62,13 @@ public class TreeRecursivePhoneNumberEncoderTest {
     }
 
     @Test
+    public void shouldFindForLongestNumber() {
+        String phone = "10783548245624828310107835482456248283101078354";
+        List<String> encoded = numberEncoder.encode(phone);
+        assertFalse(encoded.isEmpty());
+    }
+
+    @Test
     public void whenEncodedDigitInTheMiddle() {
         List<String> encoded = numberEncoder.encode("381482");
         assertEquals(1, encoded.size());
@@ -99,6 +107,11 @@ public class TreeRecursivePhoneNumberEncoderTest {
     @Test
     public void whenNoOptionsFound5() {
         whenNoOptionsFound("1078-913-5");
+    }
+
+    @Test
+    public void whenNoOptionsFound6() {
+        whenNoOptionsFound("12345678909876543212122228384509876567874567899754");
     }
 
     private void whenNoOptionsFound(String phone) {

@@ -12,6 +12,7 @@ import java.util.List;
 public class Application {
 
     public static void main(String[] args) throws Exception {
+        long startTime = System.currentTimeMillis();
         if (args.length < 1)
             throw new IllegalArgumentException("File with phone numbers should be specified");
         Dictionary dictionary = readDictionary();
@@ -22,6 +23,8 @@ public class Application {
             List<String> encodedPhoneNumbers = encoder.encode(phoneNumber);
             print(phoneNumber, encodedPhoneNumbers);
         }
+        long endTime = System.currentTimeMillis();
+        System.out.println("Execution time " + (endTime - startTime) + "ms");
     }
 
     private static void print(String phoneNumber, List<String> encodedPhoneNumbers) {

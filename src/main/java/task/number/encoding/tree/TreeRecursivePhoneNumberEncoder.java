@@ -44,6 +44,8 @@ public class TreeRecursivePhoneNumberEncoder implements PhoneNumberEncoder {
             encodingOptions.add(newPrefix);
             return encodingOptions;
         }
+        if (!dictionary.hasWordsWithNormalizedPrefix(newPrefix))
+            return encodingOptions;
         if (dictionary.containsNormalizedWord(newPrefix)) {
             List<String> sourceWords = dictionary.getSourceWordsFor(newPrefix);
             Set<String> suffixes = traverseChildNodesOf(root, "");

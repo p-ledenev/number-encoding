@@ -17,6 +17,10 @@ public class Word {
         return getNormalizedValue().equals(normalizedWord);
     }
 
+    public boolean hasNormalizedPrefix(String normalizedPrefix) {
+        return getNormalizedValue().startsWith(normalizedPrefix);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null)
@@ -37,4 +41,5 @@ public class Word {
     private String getNormalizedValue() {
         return value.toLowerCase().replace("\"", "");
     }
+
 }

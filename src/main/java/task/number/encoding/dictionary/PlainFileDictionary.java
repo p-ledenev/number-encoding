@@ -42,6 +42,13 @@ public class PlainFileDictionary implements Dictionary {
         return getFor(normalizedWord).getSourcesFor(normalizedWord);
     }
 
+    @Override
+    public boolean hasWordsWithNormalizedPrefix(String normalizedPrefix) {
+        if (isNull(normalizedPrefix) || normalizedPrefix.isEmpty())
+            return true;
+        return getFor(normalizedPrefix).containsWithNormalizedPrefix(normalizedPrefix);
+    }
+
     private WordSet getFor(String normalizedWord) {
         return dictionary
                 .getOrDefault(getHashKey(normalizedWord), new EmptyWordSet());
