@@ -1,14 +1,26 @@
 package task.number.encoding.dictionary;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-public interface WordSet {
+public class WordSet {
+    private Set<String> words;
 
-    void add(Word word);
+    public WordSet() {
+        words = new HashSet<>();
+    }
 
-    boolean containsNormalized(String normalizedWord);
+    public boolean isEmpty() {
+        return words.isEmpty();
+    }
 
-    List<String> getSourcesFor(String normalizedWord);
+    public List<String> getWords() {
+        return new ArrayList<>(words);
+    }
 
-    boolean containsWithNormalizedPrefix(String normalizedPrefix);
+    public void add(String value) {
+        words.add(value);
+    }
 }

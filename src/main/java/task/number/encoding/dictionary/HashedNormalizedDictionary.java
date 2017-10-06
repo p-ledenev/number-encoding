@@ -1,17 +1,17 @@
 package task.number.encoding.dictionary;
 
+import static java.util.Objects.isNull;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static java.util.Objects.isNull;
+import java.util.Map;
 
 public class HashedNormalizedDictionary implements Dictionary {
-    private final HashMap<String, List<String>> dictionary;
+    private final Map<String, WordSet> dictionary;
     private final DictionaryNode root;
 
     public HashedNormalizedDictionary(String fileName) throws IOException {
@@ -22,13 +22,14 @@ public class HashedNormalizedDictionary implements Dictionary {
 
     @Override
     public boolean containsNormalizedWord(String normalizedWord) {
-        List<String> words = dictionary.get(normalizedWord);
+        WordSet words = dictionary.get(normalizedWord);
         return !isNull(words) && !words.isEmpty();
     }
 
     @Override
     public List<String> getSourceWordsFor(String normalizedWord) {
-        return dictionary.get(normalizedWord);
+        return dictionary.getOrDefault(normalizedWord, new WordSet())
+                .getWords();
     }
 
     @Override
@@ -42,7 +43,7 @@ public class HashedNormalizedDictionary implements Dictionary {
             String value;
             while ((value = reader.readLine()) != null) {
                 String normalized = normalize(value);
-                List<String> words = getOrCreate(normalized);
+                WordSet words = getOrCreate(normalized);
                 words.add(value);
                 appendToTree(normalized);
             }
@@ -56,8 +57,8 @@ public class HashedNormalizedDictionary implements Dictionary {
             node = node.addChild(character);
     }
 
-    private List<String> getOrCreate(String value) {
-        return dictionary.computeIfAbsent(value, k -> new ArrayList<>());
+    private WordSet getOrCreate(String value) {
+        return dictionary.computeIfAbsent(value, k -> new WordSet());
     }
 
     private String normalize(String value) {

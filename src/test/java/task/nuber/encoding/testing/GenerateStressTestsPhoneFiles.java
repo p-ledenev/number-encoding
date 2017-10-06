@@ -17,7 +17,7 @@ public class GenerateStressTestsPhoneFiles {
     @Ignore
     public void generate() throws IOException {
         Random random = new Random();
-        Path path = Paths.get("D:/phones.txt");
+        Path path = Paths.get("F:/phones.txt");
         try {
             Files.deleteIfExists(path);
         } catch (Exception ignored) {
