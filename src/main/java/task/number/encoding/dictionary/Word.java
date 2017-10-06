@@ -2,7 +2,7 @@ package task.number.encoding.dictionary;
 
 import static java.util.Objects.isNull;
 
-public class Word {
+public class Word implements Comparable<Word>{
     private String value;
 
     public Word(String value) {
@@ -42,4 +42,8 @@ public class Word {
         return value.toLowerCase().replace("\"", "");
     }
 
+    @Override
+    public int compareTo(Word word) {
+        return value.compareTo(word.value);
+    }
 }

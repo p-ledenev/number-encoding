@@ -5,7 +5,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import task.number.encoding.PhoneNumberEncoder;
 import task.number.encoding.dictionary.Dictionary;
-import task.number.encoding.dictionary.PlainFileDictionary;
+import task.number.encoding.dictionary.HashedNormalizedDictionary;
 import task.number.encoding.tree.TreeRecursivePhoneNumberEncoder;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class TreeRecursivePhoneNumberEncoderTest {
 
     @Before
     public void setUp() throws Exception {
-        Dictionary dictionary = new PlainFileDictionary("dictionary.txt");
+        Dictionary dictionary = new HashedNormalizedDictionary("dictionary.txt");
         numberEncoder = new TreeRecursivePhoneNumberEncoder(dictionary);
     }
 
@@ -113,7 +113,7 @@ public class TreeRecursivePhoneNumberEncoderTest {
     @Test
     @Ignore
     public void whenNoOptionsFound6() {
-        whenNoOptionsFound("12345678909876543212122228384509876567874567899754");
+        whenNoOptionsFound("42345678909876543212122228384509876567874567899754");
     }
 
     private void whenNoOptionsFound(String phone) {

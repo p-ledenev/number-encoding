@@ -1,5 +1,7 @@
 package task.number.encoding.dictionary;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,10 +12,11 @@ import java.util.Map;
 
 import static java.util.Objects.isNull;
 
-public class PlainFileDictionary implements Dictionary {
+@Slf4j
+public class WordSetMapDictionary implements Dictionary {
     private Map<Character, WordSet> dictionary;
 
-    public PlainFileDictionary(String fileName) throws IOException {
+    public WordSetMapDictionary(String fileName) throws IOException {
         dictionary = new HashMap<>();
         fillDictionary(fileName);
     }
@@ -50,8 +53,15 @@ public class PlainFileDictionary implements Dictionary {
     }
 
     private WordSet getFor(String normalizedWord) {
-        return dictionary
-                .getOrDefault(getHashKey(normalizedWord), new EmptyWordSet());
+        long start = System.currentTimeMillis();
+        try {
+            return dictionary
+                    .getOrDefault(getHashKey(normalizedWord), new EmptyWordSet());
+        } finally {
+            long finish = System.currentTimeMillis();
+            if (finish - start > 0)
+                log.debug("getFor: " + (finish - start));
+        }
     }
 
     private Character getHashKey(String word) {

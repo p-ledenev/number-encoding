@@ -1,22 +1,23 @@
 package task.nuber.encoding.testing;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import task.number.encoding.dictionary.Dictionary;
-import task.number.encoding.dictionary.PlainFileDictionary;
+import task.number.encoding.dictionary.WordSetMapDictionary;
 
 import java.util.List;
 
-public class PlainFileDictionaryTest {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+public class WordSetMapDictionaryTest {
 
     private Dictionary dictionary;
 
     @Before
     public void setUp() throws Exception {
-        dictionary = new PlainFileDictionary("test-dictionary.txt");
+        dictionary = new WordSetMapDictionary("test-dictionary.txt");
     }
 
     @Test

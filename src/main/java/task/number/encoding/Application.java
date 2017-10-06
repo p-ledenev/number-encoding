@@ -1,7 +1,7 @@
 package task.number.encoding;
 
 import task.number.encoding.dictionary.Dictionary;
-import task.number.encoding.dictionary.PlainFileDictionary;
+import task.number.encoding.dictionary.WordSetMapDictionary;
 import task.number.encoding.readers.FilePhoneNumbersReader;
 import task.number.encoding.readers.PhoneNumbersReader;
 import task.number.encoding.tree.TreeRecursivePhoneNumberEncoder;
@@ -33,6 +33,6 @@ public class Application {
     }
 
     private static Dictionary readDictionary() throws IOException {
-        return new PlainFileDictionary("dictionary.txt");
+        return new WordSetMapDictionary("dictionary.txt");
     }
 }
