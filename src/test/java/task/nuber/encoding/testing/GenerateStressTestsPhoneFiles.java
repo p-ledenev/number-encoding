@@ -33,7 +33,6 @@ public class GenerateStressTestsPhoneFiles {
     }
 
     private String buildPhone(Random random) {
-        String phone = "";
         return IntStream.range(0, 50)
                 .boxed()
                 .map(i -> random.nextInt(9))

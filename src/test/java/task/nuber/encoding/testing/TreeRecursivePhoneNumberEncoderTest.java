@@ -1,7 +1,5 @@
 package task.nuber.encoding.testing;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertFalse;
 import org.junit.Before;
 import org.junit.Test;
 import task.number.encoding.PhoneNumberEncoder;
@@ -10,6 +8,9 @@ import task.number.encoding.dictionary.HashedNormalizedDictionary;
 import task.number.encoding.tree.TreeRecursivePhoneNumberEncoder;
 
 import java.util.List;
+
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertFalse;
 
 public class TreeRecursivePhoneNumberEncoderTest {
     private PhoneNumberEncoder numberEncoder;

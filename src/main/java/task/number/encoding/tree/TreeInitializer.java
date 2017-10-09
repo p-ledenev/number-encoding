@@ -22,7 +22,7 @@ public class TreeInitializer {
     }
 
     /**
-     * @param phoneNumber
+     * @param phoneNumber - phone number
      * @return tree root
      */
     public Node initFor(String phoneNumber) {

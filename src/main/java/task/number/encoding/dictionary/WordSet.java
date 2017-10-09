@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 public class WordSet {
-    private Set<String> words;
+    private final Set<String> words;
 
     public WordSet() {
         words = new HashSet<>();

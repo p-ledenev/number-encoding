@@ -74,6 +74,30 @@ tree-traversing algorithm is shown.
 
 Algorithm starts with root of the tree and empty prefix.
 On each followed step it 
-- calculates new prefix by appending current node value to incoming prefix;
-- looks if new prefix is valid word from dictionary
-- if so, invoke algorithm wi
+- calculates `new prefix` by appending current node value to incoming prefix;
+- looks if `new prefix` is valid word from dictionary;
+- if so, invoke (recursively) algorithm with current node as root and empty prefix;
+- invoke (recursively) algorithm with current node as root and `new prefix`.
+
+If at particular step no encoding options for rest of the phone number are found, 
+then digit is applied as it is (method `canAppendChildNodesAsDigit`) and new traverse 
+through children of current node and empty prefix is performed (method `traverseAsDigitChildNodesOf`).
+
+Algorithm stops traversing if
+- leaf node is reached (method `isEncodingCompleted`), 
+that means that we successfully encode the phone number;
+- no one word for particular prefix is found in dictionary 
+(method `hasWordsWithNormalizedPrefix` of `Dictionary` interface), 
+that means that this tree branch can't give any possible encoding options 
+and traversing should be stopped.
+
+
+All model entities tested with unit tests.
+
+## Performance
+Solution is not optimal regarding performance concerns, but still has several optimizations:
+- dictionary implementation with constant time requests;
+- dropping useless tree branches as fast as possible during tree traversing.
+
+At a test sequence of 100_000 phone numbers each 50 random digits length 
+application executes about 50 seconds.

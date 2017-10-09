@@ -6,10 +6,10 @@ import java.util.List;
 public class LeafNode extends Node {
 
     public static LeafNode create() {
-        return new LeafNode("", "", new ArrayList<>());
+        return new LeafNode(new ArrayList<>());
     }
 
-    private LeafNode(String digitValue, String charValue, List<Node> childNodes) {
-        super(digitValue, charValue, childNodes);
+    private LeafNode(List<Node> childNodes) {
+        super("", "", childNodes);
     }
 }
